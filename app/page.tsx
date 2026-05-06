@@ -119,7 +119,7 @@ export default function HomePage() {
                 animation: "fadeUp 1s ease 0.7s forwards",
               }}
             >
-              inside the brain.
+              {" "}inside the brain.
             </span>
             <span
               style={{
