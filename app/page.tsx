@@ -132,7 +132,7 @@ export default function HomePage() {
                 marginTop: 8,
               }}
             >
-              It is a recursively stabilized perspective.
+              {" "}It is a recursively stabilized perspective.
             </span>
           </h1>
 

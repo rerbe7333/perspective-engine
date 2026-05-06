@@ -227,8 +227,43 @@ function PerspectiveVisualization({ params, classification, time }) {
   const baseRadius = 30;
   const ringSpacing = 18;
 
-  const rings = [];
-  for (let i = 0; i < ringCount; i++) {
+  // ============================================================
+  // STATE-SPECIFIC VISUAL MODIFIERS
+  // Each state has a distinctive visual signature beyond color alone.
+  // ============================================================
+  const tone = classification.tone;
+  const t = time * 0.001;
+
+  // Fragmented: rings are broken arcs, not continuous
+  const fragmentBreaks = tone === "fragmented" ? 3 + Math.floor(ups / 30) : 0;
+
+  // Reactive: cap ring count at 2, force strong pulse
+  const effectiveRingCount =
+    tone === "reactive" ? Math.min(2, ringCount) : ringCount;
+  const reactivePulse =
+    tone === "reactive" ? 0.5 + 0.5 * Math.abs(Math.sin(t * 2.5)) : 1;
+
+  // Self-Referential: ghost rings that shadow the main rings
+  const showGhostRings = tone === "selfref";
+
+  // Meta-Recursive: periodic opacity flicker (intermittent breaks)
+  const metaFlicker =
+    tone === "meta"
+      ? 0.6 + 0.4 * (Math.sin(t * 3) > 0.7 ? 0 : 1)
+      : 1;
+
+  // Stabilized: subtle synchronized breathing — coherent slow motion
+  const stableBreath = tone === "stable" ? 1 + 0.04 * Math.sin(t * 0.6) : 1;
+
+  // Central node — the locus of perspective
+  const centerSize = (8 + glowIntensity * 4) * reactivePulse * stableBreath;
+  const centerJitterX = jitter * 3 * Math.sin(time * 0.002);
+  const centerJitterY = jitter * 3 * Math.cos(time * 0.0023);
+  const centerOpacity =
+    tone === "reactive" ? 0.4 : tone === "fragmented" ? 0.6 : 0.95;
+
+  const rings: any[] = [];
+  for (let i = 0; i < effectiveRingCount; i++) {
     const r = baseRadius + i * ringSpacing;
     // Each ring has its own jittered offset, modulated by uncertainty
     const ringJitter = jitter * 8 * Math.sin(time * 0.001 + i * 1.7);
@@ -243,15 +278,16 @@ function PerspectiveVisualization({ params, classification, time }) {
     const strokeWidth = 0.8 + sharpness * 1.4;
     const blur = (1 - sharpness) * 3;
     // Opacity: closer rings more opaque, faded by trail/memory
-    const baseOpacity = 0.85 - i * (0.07 / Math.max(1, ringCount / 6));
-    const opacity = Math.max(0.08, baseOpacity * (0.4 + trailOpacity * 0.6));
+    const baseOpacity = 0.85 - i * (0.07 / Math.max(1, effectiveRingCount / 6));
+    const opacity =
+      Math.max(0.08, baseOpacity * (0.4 + trailOpacity * 0.6)) * metaFlicker;
 
     // Recursion-excess wobble: when rho is high and gamma is low, rings deform
     const recursionExcess = Math.max(0, rho - gamma - 20) / 100;
     const wobbleR = recursionExcess * 6 * Math.sin(time * 0.002 + i);
 
     rings.push({
-      r: r + wobbleR,
+      r: (r + wobbleR) * stableBreath,
       cx: center + ringJitter,
       cy: center + ringJitterY,
       strokeWidth,
@@ -278,12 +314,11 @@ function PerspectiveVisualization({ params, classification, time }) {
     }
   }
 
-  // Central node — the locus of perspective
-  // Pulses with salience, wobbles with uncertainty
-  const centerSize = 8 + glowIntensity * 4;
-  const centerJitterX = jitter * 3 * Math.sin(time * 0.002);
-  const centerJitterY = jitter * 3 * Math.cos(time * 0.0023);
-  const centerOpacity = classification.tone === "reactive" ? 0.4 : 0.95;
+  // ============================================================
+  // STATE-SPECIFIC VISUAL MODIFIERS — moved to top so they're available
+  // for the rings loop above. Each state has a distinctive visual
+  // signature beyond color alone.
+  // ============================================================
 
   return (
     <svg
@@ -321,28 +356,116 @@ function PerspectiveVisualization({ params, classification, time }) {
         opacity={0.05 + glowIntensity * 0.08}
       />
 
-      {/* Recursive rings */}
+      {/* Recursive rings — state-aware rendering */}
       <g>
         {rings
           .slice()
           .reverse()
-          .map((ring, idx) => (
-            <ellipse
-              key={`ring-${idx}`}
-              cx={ring.cx}
-              cy={ring.cy}
-              rx={ring.r}
-              ry={ring.r * ring.ellipseRatio}
-              fill="none"
-              stroke={colors.primary}
-              strokeWidth={ring.strokeWidth}
-              opacity={ring.opacity}
-              transform={`rotate(${ring.rotation} ${ring.cx} ${ring.cy})`}
-              style={{
-                filter: ring.blur > 1 ? "url(#ringBlur)" : "none",
-              }}
-            />
-          ))}
+          .map((ring, idx) => {
+            // Fragmented: render rings as broken arcs with gaps
+            if (fragmentBreaks > 0) {
+              const segments = [];
+              for (let s = 0; s < fragmentBreaks; s++) {
+                const segLength = (Math.PI * 2) / fragmentBreaks;
+                const gapSize = segLength * 0.45;
+                const startAngle = s * segLength + t * 0.3;
+                const endAngle = startAngle + segLength - gapSize;
+                const x1 = ring.cx + Math.cos(startAngle) * ring.r;
+                const y1 =
+                  ring.cy + Math.sin(startAngle) * ring.r * ring.ellipseRatio;
+                const x2 = ring.cx + Math.cos(endAngle) * ring.r;
+                const y2 =
+                  ring.cy + Math.sin(endAngle) * ring.r * ring.ellipseRatio;
+                const largeArc = endAngle - startAngle > Math.PI ? 1 : 0;
+                segments.push(
+                  <path
+                    key={`arc-${idx}-${s}`}
+                    d={`M ${x1} ${y1} A ${ring.r} ${
+                      ring.r * ring.ellipseRatio
+                    } 0 ${largeArc} 1 ${x2} ${y2}`}
+                    fill="none"
+                    stroke={colors.primary}
+                    strokeWidth={ring.strokeWidth}
+                    opacity={ring.opacity * 0.8}
+                    style={{
+                      filter: ring.blur > 1 ? "url(#ringBlur)" : "none",
+                    }}
+                  />
+                );
+              }
+              return <g key={`ring-${idx}`}>{segments}</g>;
+            }
+
+            // Self-Referential: ghost rings shadow each main ring with offset
+            if (showGhostRings) {
+              const ghostOffset = 4 + 2 * Math.sin(t * 1.5 + idx);
+              return (
+                <g key={`ring-${idx}`}>
+                  {/* Ghost ring — slightly offset, lower opacity */}
+                  <ellipse
+                    cx={ring.cx + ghostOffset}
+                    cy={ring.cy}
+                    rx={ring.r}
+                    ry={ring.r * ring.ellipseRatio}
+                    fill="none"
+                    stroke={colors.primary}
+                    strokeWidth={ring.strokeWidth * 0.6}
+                    opacity={ring.opacity * 0.35}
+                    transform={`rotate(${ring.rotation} ${
+                      ring.cx + ghostOffset
+                    } ${ring.cy})`}
+                  />
+                  <ellipse
+                    cx={ring.cx - ghostOffset}
+                    cy={ring.cy}
+                    rx={ring.r}
+                    ry={ring.r * ring.ellipseRatio}
+                    fill="none"
+                    stroke={colors.primary}
+                    strokeWidth={ring.strokeWidth * 0.6}
+                    opacity={ring.opacity * 0.35}
+                    transform={`rotate(${ring.rotation} ${
+                      ring.cx - ghostOffset
+                    } ${ring.cy})`}
+                  />
+                  {/* Main ring */}
+                  <ellipse
+                    cx={ring.cx}
+                    cy={ring.cy}
+                    rx={ring.r}
+                    ry={ring.r * ring.ellipseRatio}
+                    fill="none"
+                    stroke={colors.primary}
+                    strokeWidth={ring.strokeWidth}
+                    opacity={ring.opacity}
+                    transform={`rotate(${ring.rotation} ${ring.cx} ${ring.cy})`}
+                    style={{
+                      filter: ring.blur > 1 ? "url(#ringBlur)" : "none",
+                    }}
+                  />
+                </g>
+              );
+            }
+
+            // Default: continuous ellipse (Reactive, Meta-Recursive, Stable)
+            return (
+              <ellipse
+                key={`ring-${idx}`}
+                cx={ring.cx}
+                cy={ring.cy}
+                rx={ring.r}
+                ry={ring.r * ring.ellipseRatio}
+                fill="none"
+                stroke={colors.primary}
+                strokeWidth={ring.strokeWidth}
+                opacity={ring.opacity}
+                transform={`rotate(${ring.rotation} ${ring.cx} ${ring.cy})`}
+                style={{
+                  filter: ring.blur > 1 ? "url(#ringBlur)" : "none",
+                }}
+              />
+            );
+          })}
       </g>
 
       {/* Salience nodes */}
@@ -661,6 +784,22 @@ export default function EnginePage() {
         {/* LEFT: parameter controls */}
         <section>
           <SectionLabel>Parameters</SectionLabel>
+          <div
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 11,
+              fontWeight: 300,
+              color: "#8a8278",
+              fontStyle: "italic",
+              lineHeight: 1.55,
+              marginBottom: 22,
+              paddingBottom: 12,
+              borderBottom: "1px solid #1f1c18",
+            }}
+          >
+            Explanatory variables, not measured quantities. Move them to feel
+            how each contributes to perspective stabilization.
+          </div>
           {PARAMETERS.map((p) => (
             <ParameterSlider
               key={p.key}

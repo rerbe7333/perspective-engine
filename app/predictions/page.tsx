@@ -355,6 +355,19 @@ function PredictionCard({ prediction, index, time, expanded, onToggle }) {
             <FieldLabel>Predicted Data Shape</FieldLabel>
             <div
               style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 10,
+                fontWeight: 300,
+                color: "#5a544a",
+                fontStyle: "italic",
+                marginTop: 4,
+                marginBottom: 4,
+              }}
+            >
+              Conceptual — illustrating the predicted shape, not simulated data.
+            </div>
+            <div
+              style={{
                 aspectRatio: "1 / 1",
                 background:
                   "radial-gradient(circle at center, #1a1612 0%, #0d0b09 100%)",
