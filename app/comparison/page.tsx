@@ -393,12 +393,12 @@ function RadialMap({
 }) {
   const cx = 250;
   const cy = 250;
-  const r = 175; // distance from center to theory nodes
+  const r = 160; // distance from center to theory nodes (was 175)
   const t = time * 0.001;
 
   return (
     <svg
-      viewBox="0 0 500 500"
+      viewBox="-100 0 700 500"
       style={{ width: "100%", height: "100%", display: "block" }}
     >
       <defs>
@@ -498,7 +498,7 @@ function RadialMap({
         const isActive = active === theory.key;
 
         // Label positioning — push outward from node
-        const labelOffset = 32;
+        const labelOffset = 38;
         const lx = cx + Math.cos(angleRad) * (r + labelOffset);
         const ly = cy + Math.sin(angleRad) * (r + labelOffset);
 
