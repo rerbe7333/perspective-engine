@@ -133,11 +133,11 @@ export function PageHeader({
       <h1
         style={{
           fontFamily: "'Fraunces', serif",
-          fontSize: 38,
+          fontSize: "clamp(26px, 6vw, 38px)",
           fontWeight: 400,
           margin: "8px 0 0",
           letterSpacing: "-0.02em",
-          lineHeight: 1.1,
+          lineHeight: 1.15,
         }}
       >
         {title}
@@ -154,7 +154,7 @@ export function PageHeader({
         <p
           style={{
             fontFamily: "'Fraunces', serif",
-            fontSize: 16,
+            fontSize: "clamp(14px, 3.6vw, 16px)",
             fontWeight: 300,
             color: "#b8b0a0",
             maxWidth: 760,
