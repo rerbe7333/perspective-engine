@@ -107,6 +107,7 @@ export default function PredictionsPage() {
 
   return (
     <div
+      className="mobile-pad"
       style={{
         minHeight: "100vh",
         background:
@@ -328,6 +329,7 @@ function PredictionCard({ prediction, index, time, expanded, onToggle }) {
         }}
       >
         <div
+          className="mobile-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1.4fr 1fr",

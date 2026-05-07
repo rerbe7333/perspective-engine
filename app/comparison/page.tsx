@@ -169,6 +169,7 @@ export default function ComparisonPage() {
 
   return (
     <div
+      className="mobile-pad"
       style={{
         minHeight: "100vh",
         background:
@@ -236,6 +237,7 @@ export default function ComparisonPage() {
 
       {/* Main layout: map on left, panel on right */}
       <main
+        className="mobile-stack"
         style={{
           maxWidth: 1200,
           margin: "0 auto",

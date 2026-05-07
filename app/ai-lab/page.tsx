@@ -227,6 +227,7 @@ export default function AILabPage() {
 
   return (
     <div
+      className="mobile-pad"
       style={{
         minHeight: "100vh",
         background:
@@ -332,6 +333,7 @@ export default function AILabPage() {
 
         {/* Level legend */}
         <div
+          className="mobile-stack-tight"
           style={{
             marginTop: 16,
             padding: "16px 20px",
@@ -388,6 +390,7 @@ export default function AILabPage() {
         </div>
 
         <div
+          className="mobile-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "440px 1fr",
@@ -474,6 +477,7 @@ export default function AILabPage() {
 function LevelMatrix({ architectures, layers, selected, onSelect }) {
   return (
     <div
+      className="mobile-scroll-x"
       style={{
         border: "1px solid #2a2620",
         background: "rgba(15, 13, 11, 0.4)",
@@ -483,6 +487,7 @@ function LevelMatrix({ architectures, layers, selected, onSelect }) {
       <table
         style={{
           width: "100%",
+          minWidth: 720,
           borderCollapse: "collapse",
           fontFamily: "'Inter', sans-serif",
         }}

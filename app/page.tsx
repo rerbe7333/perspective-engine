@@ -34,6 +34,7 @@ export default function HomePage() {
       {/* HERO */}
       <section
         ref={heroRef}
+        className="mobile-pad"
         style={{
           minHeight: "calc(100vh - 56px)",
           position: "relative",
@@ -179,6 +180,7 @@ export default function HomePage() {
 
       {/* THESIS */}
       <section
+        className="mobile-pad mobile-pad-y"
         style={{
           padding: "120px 32px",
           maxWidth: 1200,
@@ -211,6 +213,7 @@ export default function HomePage() {
         </h2>
 
         <div
+          className="mobile-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
@@ -265,6 +268,7 @@ export default function HomePage() {
 
       {/* ROUTING CARDS */}
       <section
+        className="mobile-pad mobile-pad-y"
         style={{
           padding: "80px 32px 120px",
           maxWidth: 1200,
@@ -303,6 +307,7 @@ export default function HomePage() {
         </p>
 
         <div
+          className="mobile-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
@@ -385,6 +390,7 @@ export default function HomePage() {
 
       {/* AUTHORSHIP */}
       <section
+        className="mobile-pad mobile-pad-y"
         style={{
           padding: "100px 32px",
           maxWidth: 1100,
@@ -393,6 +399,7 @@ export default function HomePage() {
         }}
       >
         <div
+          className="mobile-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 2fr",

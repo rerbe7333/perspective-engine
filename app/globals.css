@@ -34,7 +34,9 @@ video {
   display: none;
 }
 
+/* Mobile utility classes (used with !important to win over inline styles). */
 @media (max-width: 768px) {
+  /* --- Nav: hamburger swap (Batch 1) --- */
   .site-nav-desktop {
     display: none !important;
   }
@@ -43,16 +45,106 @@ video {
     display: inline-flex !important;
   }
 
+  /* --- Layout primitives (Batch 2) --- */
+
+  /* mobile-stack: force any grid to a single column with reduced gap. */
+  .mobile-stack {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* mobile-stack-tight: same but with even smaller gap (for dense rows). */
+  .mobile-stack-tight {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* mobile-pad: reduce horizontal padding on section containers. */
+  .mobile-pad {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  /* mobile-pad-tight: aggressive reset of all sides for nested/indented layouts. */
+  .mobile-pad-tight {
+    padding: 0 18px 24px 18px !important;
+  }
+
+  /* mobile-pad-y: reduce vertical padding on section containers. */
+  .mobile-pad-y {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+  }
+
+  /* mobile-hide: hide on mobile (e.g., decorative sidebars). */
+  .mobile-hide {
+    display: none !important;
+  }
+
+  /* mobile-only: show only on mobile (display set inline above this rule). */
+  .mobile-only-block {
+    display: block !important;
+  }
+
+  .mobile-only-flex {
+    display: flex !important;
+  }
+
+  /* mobile-scroll-x: enable horizontal scrolling for overflow content (matrices, tables). */
+  .mobile-scroll-x {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* mobile-full: force full width (resets max-width and minWidth). */
+  .mobile-full {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* mobile-text-shrink: reduce oversized text. */
+  .mobile-text-shrink {
+    font-size: clamp(28px, 8vw, 48px) !important;
+    line-height: 1.15 !important;
+  }
+
+  /* mobile-text-shrink-sm: for medium-large text. */
+  .mobile-text-shrink-sm {
+    font-size: clamp(20px, 5.5vw, 28px) !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Engine page: reorder so visualization shows first on mobile. */
+  .engine-mobile-grid > *:nth-child(1) {
+    order: 2;
+  }
+  .engine-mobile-grid > *:nth-child(2) {
+    order: 1;
+  }
+  .engine-mobile-grid > *:nth-child(3) {
+    order: 3;
+  }
+
   /* Larger slider thumbs on mobile — touch targets need ~22px to feel right. */
   input[type='range']::-webkit-slider-thumb {
-    width: 22px;
-    height: 22px;
+    width: 22px !important;
+    height: 22px !important;
   }
 
   input[type='range']::-moz-range-thumb {
-    width: 22px;
-    height: 22px;
+    width: 22px !important;
+    height: 22px !important;
   }
+}
+
+/* mobile-only utilities default to hidden on desktop. */
+.mobile-only-block {
+  display: none;
+}
+
+.mobile-only-flex {
+  display: none;
 }
 
 a {

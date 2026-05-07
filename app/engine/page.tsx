@@ -680,6 +680,7 @@ export default function EnginePage() {
 
   return (
     <div
+      className="mobile-pad"
       style={{
         minHeight: "100vh",
         background:
@@ -772,6 +773,7 @@ export default function EnginePage() {
 
       {/* Main grid */}
       <div
+        className="mobile-stack engine-mobile-grid"
         style={{
           maxWidth: 1280,
           margin: "0 auto",

@@ -254,6 +254,7 @@ function LayerRow({ layer, index, expanded, onToggle, total, isEmergent, time }:
         }}
       >
         <div
+          className="mobile-stack mobile-pad-tight"
           style={{
             padding: "0 28px 32px 172px",
             display: "grid",
@@ -533,6 +534,7 @@ export default function ArchitecturePage() {
 
   return (
     <div
+      className="mobile-pad"
       style={{
         minHeight: "100vh",
         background:

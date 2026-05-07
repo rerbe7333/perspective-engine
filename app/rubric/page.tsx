@@ -173,6 +173,7 @@ export default function RubricPage() {
     >
       {/* Header */}
       <header
+        className="mobile-pad"
         style={{
           padding: "48px 28px 36px",
           borderBottom: "1px solid #2a2620",
@@ -233,6 +234,7 @@ export default function RubricPage() {
 
       {/* Preface */}
       <section
+        className="mobile-pad"
         style={{
           maxWidth: 880,
           margin: "0 auto",
@@ -280,6 +282,7 @@ export default function RubricPage() {
 
       {/* Level reference */}
       <section
+        className="mobile-pad"
         style={{
           maxWidth: 1100,
           margin: "0 auto",
@@ -301,6 +304,7 @@ export default function RubricPage() {
           The four levels
         </div>
         <div
+          className="mobile-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
@@ -354,6 +358,7 @@ export default function RubricPage() {
 
       {/* RUBRIC ENTRIES */}
       <section
+        className="mobile-pad"
         style={{
           maxWidth: 1100,
           margin: "0 auto",
@@ -567,6 +572,7 @@ function RubricEntry({ entry, index, expanded, onToggle }) {
             {LEVELS.map((lv) => (
               <div
                 key={lv.key}
+                className="mobile-stack-tight"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "auto 1fr",

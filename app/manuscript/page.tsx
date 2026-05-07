@@ -284,6 +284,7 @@ export default function ManuscriptPage() {
     >
       {/* Header */}
       <header
+        className="mobile-pad"
         style={{
           padding: "48px 28px 36px",
           borderBottom: "1px solid #2a2620",
@@ -343,6 +344,7 @@ export default function ManuscriptPage() {
 
       {/* Main grid: TOC + content + timeline */}
       <main
+        className="mobile-stack mobile-pad"
         style={{
           maxWidth: 1280,
           margin: "0 auto",
@@ -355,6 +357,7 @@ export default function ManuscriptPage() {
       >
         {/* LEFT: Table of Contents (sticky) */}
         <nav
+          className="mobile-hide"
           style={{
             position: "sticky",
             top: 32,
@@ -450,6 +453,7 @@ export default function ManuscriptPage() {
 
         {/* RIGHT: Timeline (sticky) */}
         <aside
+          className="mobile-hide"
           style={{
             position: "sticky",
             top: 32,
@@ -603,6 +607,7 @@ function Section({ section, forwardRef }: { section: any; forwardRef: (el: HTMLE
               }}
             >
               <div
+                className="mobile-stack-tight"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "180px 1fr",
