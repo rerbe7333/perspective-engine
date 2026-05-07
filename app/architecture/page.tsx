@@ -156,6 +156,7 @@ function LayerRow({ layer, index, expanded, onToggle, total, isEmergent, time }:
     >
       {/* Collapsed row */}
       <div
+        className="arch-row-mobile"
         style={{
           display: "grid",
           gridTemplateColumns: "120px 1fr auto",
@@ -217,6 +218,7 @@ function LayerRow({ layer, index, expanded, onToggle, total, isEmergent, time }:
             </h3>
           </div>
           <div
+            className="arch-row-short"
             style={{
               fontFamily: "'Fraunces', serif",
               fontStyle: "italic",
