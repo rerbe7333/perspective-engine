@@ -145,6 +145,14 @@ video {
     height: 52px !important;
   }
 
+  /* Observatory: brain panel sits below the scene image on mobile. */
+  .observatory-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .observatory-brain-col {
+    position: static !important;
+  }
+
   /* Larger slider thumbs on mobile — touch targets need ~22px to feel right. */
   input[type='range']::-webkit-slider-thumb {
     width: 22px !important;
@@ -154,6 +162,18 @@ video {
   input[type='range']::-moz-range-thumb {
     width: 22px !important;
     height: 22px !important;
+  }
+}
+
+/* Modal fade-in keyframe (used by Observatory PromptModal and RevealPanel). */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

@@ -385,6 +385,17 @@ export default function HomePage() {
             glyph="manuscript"
             wide
           />
+          <RouteCard
+            number="08"
+            href="/observatory"
+            title="The Observatory"
+            subtitle="Watch your own attention construct itself"
+            description="Five curated scenes — kitchen, cafe, forest, museum, child's bedroom — populated with regions of interest. Linger on what your eye lands on. A brain readout pulses live, a question opens, and the recursive architecture you've been reading about shows up in your own looking."
+            cta="Enter the observatory"
+            time={time}
+            glyph="observatory"
+            wide
+          />
         </div>
       </section>
 
@@ -963,6 +974,58 @@ function CardGlyph({
             fill={color}
             opacity={0.8}
           />
+        </g>
+      )}
+      {type === "observatory" && (
+        <g>
+          {/* Outer iris ring */}
+          <circle
+            cx={32}
+            cy={32}
+            r={20}
+            fill="none"
+            stroke={color}
+            strokeWidth={0.7}
+            opacity={0.6}
+          />
+          {/* Inner iris */}
+          <circle
+            cx={32}
+            cy={32}
+            r={12}
+            fill="none"
+            stroke={color}
+            strokeWidth={0.6}
+            opacity={0.5}
+          />
+          {/* Pupil that follows time slowly */}
+          <circle
+            cx={32 + Math.cos(time * 0.0008) * 3}
+            cy={32 + Math.sin(time * 0.0006) * 2}
+            r={3}
+            fill={color}
+            opacity={0.85}
+          />
+          {/* Radiating rays — points of attention */}
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
+            const angle = (i / 8) * Math.PI * 2 + time * 0.0003;
+            const x1 = 32 + Math.cos(angle) * 22;
+            const y1 = 32 + Math.sin(angle) * 22;
+            const x2 = 32 + Math.cos(angle) * 28;
+            const y2 = 32 + Math.sin(angle) * 28;
+            return (
+              <line
+                key={i}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke={color}
+                strokeWidth={0.5}
+                opacity={0.3 + ((i % 3) * 0.15)}
+              />
+            );
+          })}
         </g>
       )}
     </svg>

@@ -12,6 +12,7 @@ const ROUTES = [
   { href: "/ai-lab", label: "AI Lab" },
   { href: "/rubric", label: "Rubric" },
   { href: "/manuscript", label: "Manuscript" },
+  { href: "/observatory", label: "Observatory" },
 ];
 
 export default function SiteNav() {
